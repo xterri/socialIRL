@@ -1,19 +1,51 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { 
+  createAppContainer,
+  createSwitchNavigator
+} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
+import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
+import MainScreen from './src/screens/MainScreen';
+import EventDetailsScreen from './src/screens/EventDetailsScreen';
+import UserProfileScreen from './src/screens/UserProfileScreen';
+import AccountMainScreen from './src/screens/AccountMainScreen';
+import EditAccountScreen from './src/screens/EditAccountScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
+import CreateEventScreen from './src/screens/CreateEventScreen';
+import ChatListScreen from './src/screens/ChatListScreen';
+import ChatroomScreen from './src/screens/ChatroomScreen';
+import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const switchNavigator = createSwitchNavigator({
+  // ResolveAuth: ResolveAuthScreen, // Add later, after navigation & authentication set up
+  loginFlow: createStackNavigator({
+    SignIn: SignInScreen,
+    SignUp: SignUpScreen
+  }),
+  // can navigate to any of the listed route screens, but the 'back' feature will only go back to 'last' screen it refers to
+    // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
+  mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
+    Main: MainScreen,
+    EventDetails: EventDetailsScreen,
+    UserProfile: UserProfileScreen,
+    // accountFlow: createStackNavigator({}), // will create 2 stack views if using a stack within a stack
+    AccountMain: AccountMainScreen,
+    EditAccount: EditAccountScreen,
+    Settings: SettingsScreen,
+    CreateEvent: CreateEventScreen,
+    ChatList: ChatListScreen,
+    Chatroom: ChatroomScreen,
+    ConfirmAttendance: ConfirmAttendanceScreen
+  }, { headerLayoutPreset: 'center' })
 });
+
+const App = createAppContainer(switchNavigator);
+
+export default () => {
+  return (
+    <App />
+  );
+};
