@@ -1,0 +1,34 @@
+{
+    "eventDetails": [
+        {
+            "id": 0,
+            "title": "Event 1", 
+            "details": "Random information",
+            "host": "testUser1"
+        },
+        {
+            "id": 1,
+            "title": "Event 2", 
+            "details": "Aladdin Movies?",
+            "host": "testUser2"
+        },
+        {
+            "id": 2,
+            "title": "Event 3", 
+            "details": "Pikachu so cute",
+            "host": "testUser3"
+        },
+        {
+            "id": 3,
+            "title": "Event 4", 
+            "details": "I am bad at random",
+            "host": "testUser4"
+        },
+        {
+            "id": 4,
+            "title": "Event 5", 
+            "details": "it's fudging 4AM why am I not sleeping?",
+            "host": "testUser5"
+        }
+    ]
+}
