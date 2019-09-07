@@ -1,21 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList } from 'react-native';
 
 import EventCards from '../components/EventCards';
+
+import '../devSource/events.json';
 
 const MainScreen = ({ navigation }) => {
     return (
         <View>
             <Text style={{ fontSize: 40 }}>MAIN SCREEN</Text>
 
-            <TouchableOpacity onPress={() => alert('Swipe to change event cards')}>
-                <EventCards 
-                    toEvent={() => navigation.navigate('EventDetails')}
-                    toProfile={() => navigation.navigate('UserProfile')}
-                    onLeftSwipe={() => alert('liked')}
-                    onRightSwipe={() => alert('rejected')}
-                />
-            </TouchableOpacity>
+            {/* TODO: render list of example Event Cards */}
+            <EventCards 
+                toEvent={() => navigation.navigate('EventDetails')}
+                toProfile={() => navigation.navigate('UserProfile')}
+                onLeftSwipe={() => alert('liked')}
+                onRightSwipe={() => alert('rejected')}
+            />
 
             <TouchableOpacity style={styles.yesButton} onPress={() => alert('Interested, change card')}>
                 <Text>Yes</Text>
