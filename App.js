@@ -21,10 +21,10 @@ import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
 
 const switchNavigator = createSwitchNavigator({
   // ResolveAuth: ResolveAuthScreen, // Add later, after navigation & authentication set up
-  loginFlow: createStackNavigator({
-    SignIn: SignInScreen,
-    SignUp: SignUpScreen
-  }),
+  // loginFlow: createStackNavigator({
+  //   SignIn: SignInScreen,
+  //   SignUp: SignUpScreen
+  // }),
   // can navigate to any of the listed route screens, but the 'back' feature will only go back to 'last' screen it refers to
     // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})

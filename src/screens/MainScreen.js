@@ -12,6 +12,8 @@ const MainScreen = ({ navigation }) => {
                 <EventCards 
                     toEvent={() => navigation.navigate('EventDetails')}
                     toProfile={() => navigation.navigate('UserProfile')}
+                    onLeftSwipe={() => alert('liked')}
+                    onRightSwipe={() => alert('rejected')}
                 />
             </TouchableOpacity>
 
