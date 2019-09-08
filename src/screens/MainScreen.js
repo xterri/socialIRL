@@ -15,7 +15,6 @@ import {
 import EventCards from '../components/EventCards';
 
 import data from '../devSource/events.json';
-import AccountMainScreen from './AccountMainScreen';
 
 /*
 ** Global variables & functions
@@ -23,13 +22,14 @@ import AccountMainScreen from './AccountMainScreen';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-
 /*
 ** MainScreen to be displayed/exported
 */
 const MainScreen = ({ navigation }) => {
     // handle vector position
     const position = new Animated.ValueXY();
+    // inputRange value variable
+    const inputRangeValue = [ -SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ];
     const [ state, setState ] = useState({ currentIndex: 0 });
 
     // handles touch on mobile for swiping
@@ -70,7 +70,7 @@ const MainScreen = ({ navigation }) => {
     // interpolate the val of coordinates
     const rotate = position.x.interpolate({
         // length of area animation can reach; val1 = moving left, val2 = initial value, val3 = moving right
-        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        inputRange: inputRangeValue,
         // move right = drop -10deg, move left = drop 10deg, val2 = initial value
         outputRange: ['-10deg', '0deg', '10deg'],
         // prevent output val from exceeding outputRange
@@ -88,97 +88,51 @@ const MainScreen = ({ navigation }) => {
     // hide like/nope text until swiped left or right
     const likeOpacity = position.x.interpolate({
         // define area animation can move to (L, initial, R)
-        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        inputRange: inputRangeValue,
         // define how value change when moved left/right
         outputRange: [0, 0, 1],
         extrapolate: 'clamp'    
     });
 
     const nopeOpacity = position.x.interpolate({
-        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        inputRange: inputRangeValue,
         outputRange: [1, 0, 0],
         extrapolate: 'clamp'    
     });
 
     // adding next card effect (opacity and scale)
     const nextCardOpacity = position.x.interpolate({
-        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        inputRange: inputRangeValue,
         outputRange: [1, 0, 1],
         extrapolate: 'clamp'    
     })
 
     const nextCardScale = position.x.interpolate({
-        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        inputRange: inputRangeValue,
         outputRange: [1, 0.8, 1],
         extrapolate: 'clamp'    
     })
-
-    // release card to go to next one
 
     const renderEvents = () => {
         return data.eventDetails.map((item, i) => {
             if (i < state.currentIndex) {
                 return null;
-            } else if (i == state.currentIndex) {
+            } else if (i === state.currentIndex) {
                 // display current card
                 return (
                     <Animated.View
                         {...panResponder.panHandlers} 
                         key={item.id}
-                        style={[
-                            rotateAndTranslate,
-                            {
-                                height: SCREEN_HEIGHT - 120,
-                                width: SCREEN_WIDTH,
-                                padding: 10,
-                                position: 'absolute'
-                            }
-                        ]}
+                        style={[ rotateAndTranslate, styles.cardContainer ]}
                     >
-                        <Animated.View
-                            style={{
-                                opacity: likeOpacity,
-                                transform: [{ rotate: '-30deg' }],
-                                position: 'absolute',
-                                top: 50,
-                                left: 40, 
-                                zindex: 1000
-                            }}
-                        >
-                            <Text 
-                                style={{
-                                    borderWidth: 1,
-                                    borderColor: 'green',
-                                    color: 'green',
-                                    fontSize: 32,
-                                    fontWeight: '800',
-                                    padding: 10
-                                }}
-                            >
+                        <Animated.View style={[styles.likeSwipe, { opacity: likeOpacity, zindex: 1000 }]}>
+                            <Text style={[ styles.textSwipe, { borderColor: 'green', color: 'green' }]}>
                                 LIKE
                             </Text>
                         </Animated.View>
 
-                        <Animated.View
-                            style={{
-                                opacity: nopeOpacity,
-                                transform: [{ rotate: '30deg' }],
-                                position: 'absolute',
-                                top: 50,
-                                right: 40, 
-                                zindex: 1000
-                            }}
-                        >
-                            <Text 
-                                style={{
-                                    borderWidth: 1,
-                                    borderColor: 'red',
-                                    color: 'red',
-                                    fontSize: 32,
-                                    fontWeight: '800',
-                                    padding: 10
-                                }}
-                            >
+                        <Animated.View style={[styles.nopeSwipe, { opacity: nopeOpacity, zindex: 1000 }]}>
+                            <Text style={[ styles.textSwipe, { borderColor: 'red', color: 'red' }]}>
                                 NOPE
                             </Text>
                         </Animated.View>
@@ -195,14 +149,7 @@ const MainScreen = ({ navigation }) => {
                 return (
                     <Animated.View
                         key = {item.id}
-                        style = {{
-                            height: SCREEN_HEIGHT - 120,
-                            width: SCREEN_WIDTH,
-                            padding: 10,
-                            position: 'absolute',
-                            opacity: nextCardOpacity,
-                            transform: [{ scale: nextCardScale }],
-                        }}
+                        style = {[ styles.cardContainer, { opacity: nextCardOpacity, transform: [{ scale: nextCardScale }] }]}
                     >
                         <EventCards 
                             {...item}
@@ -226,13 +173,20 @@ const MainScreen = ({ navigation }) => {
                 {renderEvents()}
             </View>
 
-            <View style={{ height: 60, flexDirection: 'row' }}>
-                <TouchableOpacity style={styles.yesButton} onPress={() => alert('Interested, change card')}>
-                    <Text>Like</Text>
+            <View style={styles.bottomContainer}>
+
+                <TouchableOpacity 
+                    style={[styles.button, { backgroundColor: 'green' }]} 
+                    onPress={() => alert('Interested, change card')}
+                >
+                    <Text style={styles.textButton}>Like</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.noButton} onPress={() => alert('Not interested, change card')}>
-                    <Text>Dislike</Text>
+                <TouchableOpacity 
+                    style={[styles.button, { backgroundColor: 'red' }]} 
+                    onPress={() => alert('Not interested, change card')}
+                >
+                    <Text style={styles.textButton}>Dislike</Text>
                 </TouchableOpacity>
 
             </View>
@@ -273,21 +227,47 @@ MainScreen.navigationOptions = ({ navigation }) => {
 ** StyleSheet
 */
 const styles = StyleSheet.create({
-    noButton: {
-        marginLeft: 200,
-        borderColor: 'red',
-        borderWidth: 1,
-        borderRadius: 25,
-        height: 50,
-        width: 50
+    bottomContainer: {
+        height: 60, 
+        padding: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    yesButton: {
-        borderColor: 'green',
+    button: {
         borderWidth: 1,
         borderRadius: 25,
         height: 50,
-        width: 50
+        width: 50,
+    },
+    textButton: {
+        fontWeight: '800',
+        color: '#fff'
+    },
+    cardContainer: {
+        height: SCREEN_HEIGHT - 120,
+        width: SCREEN_WIDTH,
+        padding: 10,
+        position: 'absolute'
+    },
+    likeSwipe: {
+        transform: [{ rotate: '-30deg' }],
+        position: 'absolute',
+        top: 50,
+        left: 40, 
+    },
+    nopeSwipe: {
+        transform: [{ rotate: '30deg' }],
+        position: 'absolute',
+        top: 50,
+        right: 40, 
+    },
+    textSwipe: {
+        borderWidth: 1,
+        fontSize: 32,
+        fontWeight: '800',
+        padding: 10
     }
+
 });
 
 export default MainScreen;
