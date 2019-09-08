@@ -15,6 +15,7 @@ import {
 import EventCards from '../components/EventCards';
 
 import data from '../devSource/events.json';
+import AccountMainScreen from './AccountMainScreen';
 
 /*
 ** Global variables & functions
@@ -30,6 +31,41 @@ const MainScreen = ({ navigation }) => {
     // handle vector position
     const position = new Animated.ValueXY();
     const [ state, setState ] = useState({ currentIndex: 0 });
+
+    // handles touch on mobile for swiping
+    const panResponder = PanResponder.create({
+        // initializing
+        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        // event handler for moving gesture
+        onPanResponderMove: (evt, gestureState) => {
+            // assign vector value
+            position.setValue({ x: gestureState.dx, y: gestureState.dy }); 
+        },
+        // event handler for release of gesture
+        onPanResponderRelease: (evt, gestureState) => {
+            if (gestureState.dx > 120) {
+                // Animated.spring = define val to animate from start to end w/o timing
+                Animated.spring(position, {
+                    toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy }
+                }).start(() => {
+                    setState({ currentIndex: state.currentIndex + 1 })
+                    position.setValue({ x: 0, y: 0 })
+                })
+            } else if (gestureState.dx < -120) {
+                Animated.spring(position, {
+                    toValue: { x: -SCREEN_WIDTH - 100, y: gestureState.dy }
+                }).start(() => {
+                    setState({ currentIndex: state.currentIndex + 1 })
+                    position.setValue({ x: 0, y: 0 })
+                })
+            } else {
+                Animated.spring(position, {
+                    toValue: { x: 0, y: 0 },
+                    friction: 4
+                }).start()
+            }
+        }
+    });
 
     // interpolate the val of coordinates
     const rotate = position.x.interpolate({
@@ -49,27 +85,45 @@ const MainScreen = ({ navigation }) => {
         ]
     };
 
-    // handles touch on mobile for swiping
-    const responder = PanResponder.create({
-        // initializing
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
-        // event handler for moving gesture
-        onPanResponderMove: (evt, gestureState) => {
-            // assign vector value
-            position.setValue({ x: gestureState.dx, y: gestureState.dy }); 
-        },
-        // event handler for release of gesture
-        onPanResponderRelease: (evt, gestureState) => {}
+    // hide like/nope text until swiped left or right
+    const likeOpacity = position.x.interpolate({
+        // define area animation can move to (L, initial, R)
+        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        // define how value change when moved left/right
+        outputRange: [0, 0, 1],
+        extrapolate: 'clamp'    
     });
+
+    const nopeOpacity = position.x.interpolate({
+        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        outputRange: [1, 0, 0],
+        extrapolate: 'clamp'    
+    });
+
+    // adding next card effect (opacity and scale)
+    const nextCardOpacity = position.x.interpolate({
+        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        outputRange: [1, 0, 1],
+        extrapolate: 'clamp'    
+    })
+
+    const nextCardScale = position.x.interpolate({
+        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        outputRange: [1, 0.8, 1],
+        extrapolate: 'clamp'    
+    })
+
+    // release card to go to next one
 
     const renderEvents = () => {
         return data.eventDetails.map((item, i) => {
             if (i < state.currentIndex) {
                 return null;
             } else if (i == state.currentIndex) {
+                // display current card
                 return (
                     <Animated.View
-                        {...responder.panHandlers} 
+                        {...panResponder.panHandlers} 
                         key={item.id}
                         style={[
                             rotateAndTranslate,
@@ -83,6 +137,7 @@ const MainScreen = ({ navigation }) => {
                     >
                         <Animated.View
                             style={{
+                                opacity: likeOpacity,
                                 transform: [{ rotate: '-30deg' }],
                                 position: 'absolute',
                                 top: 50,
@@ -106,6 +161,7 @@ const MainScreen = ({ navigation }) => {
 
                         <Animated.View
                             style={{
+                                opacity: nopeOpacity,
                                 transform: [{ rotate: '30deg' }],
                                 position: 'absolute',
                                 top: 50,
@@ -135,6 +191,7 @@ const MainScreen = ({ navigation }) => {
                     </Animated.View>
                 );
             } else {
+                // Show Next Card in stack
                 return (
                     <Animated.View
                         key = {item.id}
@@ -142,7 +199,9 @@ const MainScreen = ({ navigation }) => {
                             height: SCREEN_HEIGHT - 120,
                             width: SCREEN_WIDTH,
                             padding: 10,
-                            position: 'absolute'
+                            position: 'absolute',
+                            opacity: nextCardOpacity,
+                            transform: [{ scale: nextCardScale }],
                         }}
                     >
                         <EventCards 
