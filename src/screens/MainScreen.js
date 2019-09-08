@@ -31,6 +31,25 @@ const MainScreen = ({ navigation }) => {
     const position = new Animated.ValueXY();
     const [ state, setState ] = useState({ currentIndex: 0 });
 
+    // interpolate the val of coordinates
+    const rotate = position.x.interpolate({
+        // length of area animation can reach; val1 = moving left, val2 = initial value, val3 = moving right
+        inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ],
+        // move right = drop -10deg, move left = drop 10deg, val2 = initial value
+        outputRange: ['-10deg', '0deg', '10deg'],
+        // prevent output val from exceeding outputRange
+        extrapolate: 'clamp'
+    });
+
+    // transform property
+    const rotateAndTranslate = {
+        transform: [{
+            rotate
+        }, ...position.getTranslateTransform()
+        ]
+    };
+
+    // handles touch on mobile for swiping
     const responder = PanResponder.create({
         // initializing
         onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -53,7 +72,7 @@ const MainScreen = ({ navigation }) => {
                         {...responder.panHandlers} 
                         key={item.id}
                         style={[
-                            { transform: position.getTranslateTransform() },
+                            rotateAndTranslate,
                             {
                                 height: SCREEN_HEIGHT - 120,
                                 width: SCREEN_WIDTH,
@@ -62,12 +81,56 @@ const MainScreen = ({ navigation }) => {
                             }
                         ]}
                     >
+                        <Animated.View
+                            style={{
+                                transform: [{ rotate: '-30deg' }],
+                                position: 'absolute',
+                                top: 50,
+                                left: 40, 
+                                zindex: 1000
+                            }}
+                        >
+                            <Text 
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: 'green',
+                                    color: 'green',
+                                    fontSize: 32,
+                                    fontWeight: '800',
+                                    padding: 10
+                                }}
+                            >
+                                LIKE
+                            </Text>
+                        </Animated.View>
+
+                        <Animated.View
+                            style={{
+                                transform: [{ rotate: '30deg' }],
+                                position: 'absolute',
+                                top: 50,
+                                right: 40, 
+                                zindex: 1000
+                            }}
+                        >
+                            <Text 
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: 'red',
+                                    color: 'red',
+                                    fontSize: 32,
+                                    fontWeight: '800',
+                                    padding: 10
+                                }}
+                            >
+                                NOPE
+                            </Text>
+                        </Animated.View>
+                        
                         <EventCards 
                             {...item}
-                            toEvent={() => alert('navigate to Event Details page')}
-                            toProfile={() => alert('navigate to other user profile page')}
-                            onLeftSwipe={() => alert('liked')}
-                            onRightSwipe={() => alert('rejected')}
+                            toEvent={() => navigation.navigate('EventDetails')}
+                            toProfile={() => navigation.navigate('UserProfile')}
                         />
                     </Animated.View>
                 );
@@ -84,10 +147,8 @@ const MainScreen = ({ navigation }) => {
                     >
                         <EventCards 
                             {...item}
-                            toEvent={() => alert('navigate to Event Details page')}
-                            toProfile={() => alert('navigate to other user profile page')}
-                            onLeftSwipe={() => alert('liked')}
-                            onRightSwipe={() => alert('rejected')}
+                            toEvent={() => navigation.navigate('EventDetails')}
+                            toProfile={() => navigation.navigate('UserProfile')}
                         />
                     </Animated.View>
                 )
@@ -99,7 +160,7 @@ const MainScreen = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             
             <View style={{ height: 60 }}>
-                <Text style={{ fontSize: 40 }}>Test Card & Swipe</Text>
+                <Text style={{ fontSize: 40 }}>Main Card w/ Swipe</Text>
             </View>
 
             <View style={{ flex: 1 }}>

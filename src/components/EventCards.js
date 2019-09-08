@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-
 const EventCards = ({ title, info, host, toEvent, toProfile }) => {
     return (
         <View style={styles.card}>
