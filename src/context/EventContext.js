@@ -20,6 +20,6 @@ const getEventDetails = (dispatch) => {
 
 // pass in reducer, object w/ actions, & initial/default state
 export const { Context, Provider } = createDataContext(
-    blogReducer, 
-    { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts }, 
+    eventDetailsReducer, 
+    { addEventDetails }, 
     []);

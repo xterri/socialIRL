@@ -19,6 +19,9 @@ import ChatListScreen from './src/screens/ChatListScreen';
 import ChatroomScreen from './src/screens/ChatroomScreen';
 import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
 
+// import TestScreen from './src/screens/testScreen';
+
+
 const switchNavigator = createSwitchNavigator({
   // ResolveAuth: ResolveAuthScreen, // Add later, after navigation & authentication set up
   // loginFlow: createStackNavigator({
@@ -28,6 +31,7 @@ const switchNavigator = createSwitchNavigator({
   // can navigate to any of the listed route screens, but the 'back' feature will only go back to 'last' screen it refers to
     // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
+    // Test: TestScreen,
     Main: MainScreen,
     EventDetails: EventDetailsScreen,
     UserProfile: UserProfileScreen,
