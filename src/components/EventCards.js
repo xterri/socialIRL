@@ -19,11 +19,10 @@ const EventCards = ({ title, info, host, toEvent, toProfile }) => {
 
 const styles = StyleSheet.create({
     card: {
-        height: 450,
         width: 330,
         borderRadius: 20,                            
         borderColor: '#000',
-        borderWidth: 2
+        borderWidth: 2,
     },
     info: {
         height: 50,

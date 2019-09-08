@@ -155,10 +155,14 @@ const renderEvents = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        height: SCREEN_HEIGHT - 120,
-        width: SCREEN_WIDTH,
+        // need to find better height and width adjustment for screens for different devices
+        height: SCREEN_HEIGHT - 255, // too long 
+        width: SCREEN_WIDTH, // a little too wide on mobile
         padding: 10,
-        position: 'absolute'
+        position: 'absolute',
+        borderColor: 'yellow', 
+        borderWidth: 3,
+        flex: 1
     },
     likeSwipe: {
         transform: [{ rotate: '-30deg' }],

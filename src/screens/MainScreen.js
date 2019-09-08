@@ -13,11 +13,11 @@ const MainScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             
-            <View style={{ height: 60 }}>
-                <Text style={{ fontSize: 40 }}>Main Card w/ Swipe</Text>
+            <View style={{ flex: 1, borderColor: 'navyblue', borderWidth: 3 }}>
+                <Text style={{ fontSize: 35 }}>Main Card w/ Swipe</Text>
             </View>
 
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 8, borderColor: 'red', borderWidth: 3 }}>
                 {renderEvents({ navigation })}
             </View>
 
@@ -73,10 +73,13 @@ MainScreen.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     bottomContainer: {
-        height: 60, 
+        // height: 60, 
         padding: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        flex: 1,
+        borderColor: 'green', 
+        borderWidth: 3
     },
     button: {
         borderWidth: 1,
