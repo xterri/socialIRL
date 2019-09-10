@@ -155,9 +155,8 @@ const renderEvents = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        // need to find better height and width adjustment for screens for different devices
-        height: SCREEN_HEIGHT - 255, // too long 
-        width: SCREEN_WIDTH, // a little too wide on mobile
+        height: SCREEN_HEIGHT * 0.6575, // TODO: find way to make screen height even-ish for all devices
+        width: SCREEN_WIDTH, 
         padding: 10,
         position: 'absolute',
         borderColor: 'yellow', 
