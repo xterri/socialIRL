@@ -1,9 +1,22 @@
 // root file for server
+require('./models/User');
+
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+const authRoutes = require('./routes/authRoutes');
+
+const requireAuth = require('./middlewares/requireAuth');
 
 // represents our entire application; associate route handlers with this
 const app = express();
+
+// parse JSON data out of incoming request
+app.use(bodyParser.json());
+
+// associate req handlers added to router with main express app
+app.use(authRoutes);
 
 const mongoUri = 'mongodb+srv://socialIRLAdmin:socialIRLP@$$w0rd@cluster0-hdt24.mongodb.net/test?retryWrites=true&w=majority'
 
@@ -27,8 +40,9 @@ mongoose.connection.on('error', (err) => {
 
 // root handler
 // GET call made to root route; function is auto called with req obj (incoming http req) & res obj (outgoing response)
-app.get('/', (req, res) => { 
-    res.send('Test Route');
+// use 'requireAuth' to confirm if user's account & device was assigned a jwt to for access
+app.get('/', requireAuth, (req, res) => { 
+    res.send('Access granted');
 });
 
 app.listen(3000, () => {
