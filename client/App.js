@@ -20,14 +20,14 @@ import ChatroomScreen from './src/screens/ChatroomScreen';
 import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
 
 // import TestScreen from './src/screens/testScreen';
-
+import { Provider as AuthProvider } from './src/context/AuthContext';
 
 const switchNavigator = createSwitchNavigator({
   // ResolveAuth: ResolveAuthScreen, // Add later, after navigation & authentication set up
-  // loginFlow: createStackNavigator({
-  //   SignIn: SignInScreen,
-  //   SignUp: SignUpScreen
-  // }),
+  loginFlow: createStackNavigator({
+    SignUp: SignUpScreen,
+    SignIn: SignInScreen,
+  }),
   // can navigate to any of the listed route screens, but the 'back' feature will only go back to 'last' screen it refers to
     // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
@@ -50,6 +50,8 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   );
 };

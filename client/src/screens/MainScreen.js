@@ -7,7 +7,7 @@ import {
     TouchableOpacity, 
 } from 'react-native';
 
-import renderEvents from '../components/renderEventCards';
+import renderEvents from '../helpers/renderEventCards';
 
 const MainScreen = ({ navigation }) => {
     return (

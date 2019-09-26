@@ -1,5 +1,5 @@
 /*
-** ReUsable component to create new Data Contexts
+** Reuseable component to create new Data Contexts
 **
 ** May want to revamp and see if we can use Redux or Mobx instead?
 */

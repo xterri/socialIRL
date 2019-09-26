@@ -21,9 +21,10 @@ router.post('/signup', async (req, res) => {
             const token = jwt.sign({ userId: user._id }, 'SecretToken'); // secret = customizable
             res.send({ token });
         } else {
-            res.status(500).send('Passwords do not match').end()
+            res.status(429).send('Passwords do not match');
         }
     } catch (err) {
+        console.log(err.message);
         return res.status(422).send(err.message);
     }
 });
