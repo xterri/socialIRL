@@ -1,21 +1,26 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 
 import { Context as AuthContext } from '../context/AuthContext';
 
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 
-const SignInScreen = ({ navigation }) => {
-    const { state, signin } = useContext(AuthContext);
+// TODO: Look into resetting the states in AuthForm when screen goes back (resets in signup, but not in signin)
+const SignInScreen = () => {
+    const { state, signin, clearErrorMessage } = useContext(AuthContext);
 
     return (
         <View style={styles.container}>
+            <NavigationEvents 
+                onWillBlur={clearErrorMessage}
+            />
             <AuthForm
                 headerText='Sign In'
-                errorMessage=''
+                errorMessage={state.errorMessage}
                 submitButtonText='Sign In'
-                onSubmit={() => {}}
+                onSubmit={signin}
             />
             <NavLink text='Create an Account' routeName='SignUp'/>
         </View>
