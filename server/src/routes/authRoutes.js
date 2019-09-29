@@ -24,7 +24,6 @@ router.post('/signup', async (req, res) => {
             res.status(429).send('Passwords do not match');
         }
     } catch (err) {
-        console.log(err.message);
         return res.status(422).send(err.message);
     }
 });
