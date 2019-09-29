@@ -1,9 +1,15 @@
 // check user authentication to see if they have a token/signed in already
-
 import React, { useEffect, useContext } from 'react';
 
+import { Context as AuthContext } from '../context/AuthContext';
 
 const ResolveAuthScreen = () => {
+    const { tryLocalSignIn } = useContext(AuthContext);
+    
+    useEffect(() => {
+        tryLocalSignIn();
+    }, []);
+
     return null;
 };
 
