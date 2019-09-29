@@ -1,49 +1,24 @@
-import React, { useState, useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import React, { useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
 
 import { Context as AuthContext } from '../context/AuthContext';
 
-import Spacer from '../components/Spacer';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = () => {
     const { state, signup } = useContext(AuthContext);
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState(''); 
-    const [confirmPassword, setComfirmPassword] = useState(''); 
 
     return (
         <View style={styles.container}>
-            <Spacer>
-                <Text h3>Create An Account</Text>
-            </Spacer>
-            
-            {/* To be changed to Phone # */}
-            <Input label='Email' value={email} onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} />
-            <Spacer />
-            
-            <Input label='Password' value={password} onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} secureTextEntry />
-            <Spacer />
-            
-            <Input label='Confirm Password' value={confirmPassword} onChangeText={setComfirmPassword} autoCapitalize='none' autoCorrect={false} secureTextEntry />
-            
-            <Spacer>
-                <Button title='Sign Up' onPress={() => signup({ email, password, confirmPassword })}></Button>
-            </Spacer> 
-
-            { state.errorMessage ? <Spacer><Text style={{ color: 'red', fontSize: 16 }}>{state.errorMessage}</Text></Spacer> : null }
-
-            <Spacer>
-                <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-                    <Text style={{ color: 'blue' }}>Log in with your account</Text>
-                </TouchableOpacity>
-            </Spacer>
-            
-            <Button 
-                title='Go to Main Flow'
-                onPress={() => navigation.navigate('mainFlow')}
+            <AuthForm
+                headerText='Create an Account'
+                errorMessage={state.errorMessage}
+                submitButtonText='Sign Up'
+                onSubmit={signup} // same as ({ email, password }) => signup({ email, password })
+                newAccount={true}
             />
+            <NavLink text='Log in with your account' routeName='SignIn' />
         </View>
     );
 };
