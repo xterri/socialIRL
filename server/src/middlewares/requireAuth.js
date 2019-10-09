@@ -10,22 +10,22 @@ module.exports =(req, res, next) => {
     if (!authorization)
         return res.status(401).send({ error: 'You must be logged in' });
     
-        // extract only the token
-        const token = authorization.replace('Bearer ', '');
+    // extract only the token
+    const token = authorization.replace('Bearer ', '');
 
-        // ensure the secret is consistent whereever used
-        jwt.verify(token, 'SecretToken', async (err, payload) => {
-            if (err)
-                return res.status(401).send({ error: 'Please log in' });
-            
-            // extract userId from payload
-            const { userId } = payload; 
+    // ensure the secret is consistent whereever used
+    jwt.verify(token, 'SecretToken', async (err, payload) => {
+        if (err)
+            return res.status(401).send({ error: 'Please log in' });
+        
+        // extract userId from payload
+        const { userId } = payload; 
 
-            // search for user in db & assign to req object
-            const user = await User.findById(userId);
+        // search for user in db & assign to req object
+        const user = await User.findById(userId);
 
-            req.user = user;
+        req.user = user;
 
-            next();
-        });
+        next();
+    });
 };
