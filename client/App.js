@@ -18,6 +18,7 @@ import CreateEventScreen from './src/screens/CreateEventScreen';
 import ChatListScreen from './src/screens/ChatListScreen';
 import ChatroomScreen from './src/screens/ChatroomScreen';
 import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
+import ListMainScreen from './src/screens/ListMainScreen';
 
 // import TestScreen from './src/screens/testScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
@@ -43,7 +44,8 @@ const switchNavigator = createSwitchNavigator({
     CreateEvent: CreateEventScreen,
     ChatList: ChatListScreen,
     Chatroom: ChatroomScreen,
-    ConfirmAttendance: ConfirmAttendanceScreen
+    ConfirmAttendance: ConfirmAttendanceScreen,
+    ListMain: ListMainScreen
   }, { headerLayoutPreset: 'center' })
 });
 

@@ -7,15 +7,11 @@ import {
     TouchableOpacity, 
 } from 'react-native';
 
-import renderEvents from '../helpers/renderEventCards';
+import renderEvents from '../helpers/renderListEventCards';
 
 const MainScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, borderColor: 'navyblue', borderWidth: 3 }}>
-                <Button title='List Main' onPress={() => navigation.navigate('ListMain')} />
-                {/* <Text style={{ fontSize: 35 }}>Main Card w/ Swipe</Text> */}
-            </View>
 
             <View style={{ flex: 8, borderColor: 'red', borderWidth: 3 }}>
                 {renderEvents({ navigation })}
