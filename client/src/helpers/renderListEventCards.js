@@ -156,6 +156,12 @@ const renderEvents = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    listContainer: {
+        padding: 10,
+        borderColor: 'pink', 
+        borderWidth: 10,
+        flex: 1
+    },
     cardContainer: {
         padding: 10,
         borderColor: 'yellow', 
