@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const EventCards = ({ title, info, host, toEvent, toProfile }) => {
+const EventCards = ({ title, details, host, toEvent, toProfile }) => {
     return (
         <View style={styles.card}>
             <Text>{title}</Text>
 
             <TouchableOpacity style={styles.info} onPress={toEvent}>
-                <Text>{info}</Text>
+                <Text>{details}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={toProfile}>
