@@ -22,6 +22,7 @@ import ListMainScreen from './src/screens/ListMainScreen';
 
 // import TestScreen from './src/screens/testScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
+import { Provider as EventProvider } from './src/context/EventContext';
 import { setNavigator } from './src/navigationRef';
 
 const switchNavigator = createSwitchNavigator({
@@ -34,7 +35,8 @@ const switchNavigator = createSwitchNavigator({
     // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
     // Test: TestScreen,
-    Main: MainScreen,
+    // Main: MainScreen,
+    ListMain: ListMainScreen,
     EventDetails: EventDetailsScreen,
     UserProfile: UserProfileScreen,
     // accountFlow: createStackNavigator({}), // will create 2 stack views if using a stack within a stack
@@ -45,7 +47,6 @@ const switchNavigator = createSwitchNavigator({
     ChatList: ChatListScreen,
     Chatroom: ChatroomScreen,
     ConfirmAttendance: ConfirmAttendanceScreen,
-    ListMain: ListMainScreen
   }, { headerLayoutPreset: 'center' })
 });
 
@@ -53,8 +54,10 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <AuthProvider>
-      <App ref={(navigator) => { setNavigator(navigator)}}/>
-    </AuthProvider>
+    <EventProvider>
+      <AuthProvider>
+        <App ref={(navigator) => { setNavigator(navigator)}}/>
+      </AuthProvider>
+    </EventProvider>
   );
 };
