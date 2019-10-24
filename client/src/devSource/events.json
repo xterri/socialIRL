@@ -29,6 +29,42 @@
             "title": "Event 5", 
             "details": "it's fudging 4AM why am I not sleeping?",
             "host": "testUser5"
+        },
+        {
+            "id": "5",
+            "title": "Event 6", 
+            "details": "I duno, event 6",
+            "host": "testUser6"
+        },
+        {
+            "id": "6",
+            "title": "Event 7", 
+            "details": "test 7",
+            "host": "testUser7"
+        },
+        {
+            "id": "7",
+            "title": "Event 8", 
+            "details": "anxiety sucks",
+            "host": "testUser8"
+        },
+        {
+            "id": "8",
+            "title": "Event 9", 
+            "details": "oompa loompa",
+            "host": "testUser9"
+        },
+        {
+            "id": "9",
+            "title": "Event 10", 
+            "details": "beep beep",
+            "host": "testUser10"
+        },
+        {
+            "id": "10",
+            "title": "Event 11", 
+            "details": "like omg",
+            "host": "testUser11"
         }
     ]
 }
