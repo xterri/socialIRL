@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react'; 
 import { 
     View, 
     Text, 
@@ -7,24 +7,38 @@ import {
     FlatList,
     TouchableOpacity, 
 } from 'react-native';
+
+import { EventLeftSwipe, EventRightSwipe } from '../helpers/onSwipe';
 import ListItem, { Separator } from '../components/ListItem';
-
-
-import data from '../devSource/events.json';
+import { Context as EventContext } from '../context/EventContext';
 
 const ListMainScreen = ({ navigation }) => {
+    const { state, getEventDetails } = useContext(EventContext);
+
+    useEffect(() => {
+        getEventDetails();
+
+        const listener = navigation.addListener('didFocus', () => {
+            getEventDetails();
+        });
+
+        return (() => {
+            listener.remove();
+        });
+    }, []);
+    
     return (
         <View style={styles.container}>
             <View style={{ flex: 8, borderColor: 'red', borderWidth: 3 }}>
                 <FlatList
-                    data={data.eventDetails}
+                    data={state}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => {
                         return (
                             <ListItem
                                 {...item}
-                                onSwipeFromLeft={() => alert('swiped from left')}
-                                onRightPress={() => alert('pressed right')}
+                                onSwipeFromLeft={() => EventLeftSwipe({ ...item })}
+                                onSwipeFromRight={() => EventRightSwipe({ ...item })}
                             />
                         );
                     }}

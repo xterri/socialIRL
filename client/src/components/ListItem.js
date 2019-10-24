@@ -8,16 +8,14 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-const ListItem = ({ details, onSwipeFromLeft, onRightPress }) => {
+const ListItem = ({ details, onSwipeFromLeft, onSwipeFromRight }) => {
     return (
         <Swipeable
             renderLeftActions={LeftActions}
+            renderRightActions={RightActions}
             onSwipeableLeftOpen={onSwipeFromLeft}
-            renderRightActions={( progress, dragX ) => {
-                return (
-                    <RightActions progress={progress} dragX={dragX} onPress={onRightPress} />
-                );
-            }}
+            onSwipeableRightOpen={onSwipeFromRight}
+            overshootRight={true}
         >
             <View style={styles.container}>
                 <Text style={styles.text}>{details}</Text>
@@ -41,25 +39,25 @@ const LeftActions = (progress, dragX) => {
     );
 };
 
-const RightActions = ({ progress, dragX, onPress }) => {
+const RightActions = (progress, dragX) => {
     const scale = dragX.interpolate({
         inputRange: [-100, 0],
         outputRange: [1, 0],
         extrapolate: 'clamp',
     });
     return (
-        <TouchableOpacity onPress={onPress}>
-            <View style={styles.rightAction}>
-                <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
-                    Nope
-                </Animated.Text>
-            </View>
-        </TouchableOpacity>
+        <View style={styles.rightAction}>
+            <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
+                Nope
+            </Animated.Text>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+        borderColor: 'lightblue',
+        borderWidth: 3,
         paddingHorizontal: 10,
         paddingVertical: 20,
     },
