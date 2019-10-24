@@ -13,9 +13,8 @@ const ListItem = ({ details, onSwipeFromLeft, onSwipeFromRight }) => {
         <Swipeable
             renderLeftActions={LeftActions}
             renderRightActions={RightActions}
-            onSwipeableLeftOpen={onSwipeFromLeft}
+            //onSwipeableLeftOpen={onSwipeFromLeft}
             onSwipeableRightOpen={onSwipeFromRight}
-            overshootRight={true}
         >
             <View style={styles.container}>
                 <Text style={styles.text}>{details}</Text>
