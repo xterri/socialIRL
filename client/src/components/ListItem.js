@@ -13,7 +13,7 @@ const ListItem = ({ details, onSwipeFromLeft, onSwipeFromRight }) => {
         <Swipeable
             renderLeftActions={LeftActions}
             renderRightActions={RightActions}
-            //onSwipeableLeftOpen={onSwipeFromLeft}
+            onSwipeableLeftOpen={onSwipeFromLeft}
             onSwipeableRightOpen={onSwipeFromRight}
         >
             <View style={styles.container}>
