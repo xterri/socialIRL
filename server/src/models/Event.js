@@ -6,19 +6,15 @@ const eventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    title: {
+    title: String,
+    description: {
         type: String,
-        required: true
+        default: ''
     },
-    description: String,
-    createDate: { // when event was created
-        date: {
-            type: Date, 
-            default: Date.now
-        },
-        timestamp: Number
-    },
+    timestamp: Number, // when event was created
     eventDate: Date,
+
+    /* LEAVE OUT FOR NOW UNTIL OK WITH DB
     eventTime: Number,
     // TODO: review what details required when host sets a location
     location: {
@@ -26,9 +22,11 @@ const eventSchema = new mongoose.Schema({
         coordinates: [], // longitude, latitude
     },
     participants: Number,
+    */
+   
     interestedUsers: [] // array so we can add # of users
 });
 
-eventSchema.index({ "location": "2dsphere" });
+eventSchema.index({ 'location': '2dsphere' });
 
 mongoose.model('Event', eventSchema);

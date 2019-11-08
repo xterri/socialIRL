@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const authRoutes = require('./routes/authRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 
 const requireAuth = require('./middlewares/requireAuth');
 
@@ -18,7 +19,9 @@ app.use(bodyParser.json());
 
 // associate req handlers added to router with main express app
 app.use(authRoutes);
+app.use(eventRoutes);
 
+// TODO: call these in a separate file (not uploaded to git)
 const mongoUri = 'mongodb+srv://socialIRLAdmin:socialIRLP@$$w0rd@cluster0-hdt24.mongodb.net/test?retryWrites=true&w=majority'
 
 // connect to db
@@ -46,6 +49,6 @@ app.get('/', requireAuth, (req, res) => {
     res.send('Access granted');
 });
 
-app.listen(8080, () => {
-    console.log('Listening on port 8080');
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
 });
