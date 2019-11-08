@@ -1,5 +1,6 @@
 // root file for server
 require('./models/User');
+require('./models/Event');
 
 const express = require('express');
 const mongoose = require('mongoose');
