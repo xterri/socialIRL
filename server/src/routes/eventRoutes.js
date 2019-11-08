@@ -9,7 +9,7 @@ const Event = mongoose.model('Event');
 const router = express.Router();
 
 // if user signed in, continue to with requests
-// router.use(requireAuth);
+router.use(requireAuth);
 
 router.get('/events', async (req, res) => {
     const events = await Event.find(); // currently returns first 20 results
