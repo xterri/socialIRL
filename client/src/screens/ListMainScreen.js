@@ -13,13 +13,13 @@ import ListItem, { Separator } from '../components/ListItem';
 import { Context as EventContext } from '../context/EventContext';
 
 const ListMainScreen = ({ navigation }) => {
-    const { state, getEventDetails } = useContext(EventContext);
+    const { state, getEvents } = useContext(EventContext);
 
     useEffect(() => {
-        getEventDetails();
+        getEvents();
 
         const listener = navigation.addListener('didFocus', () => {
-            getEventDetails();
+            getEvents();
         });
 
         return (() => {
@@ -29,10 +29,10 @@ const ListMainScreen = ({ navigation }) => {
     
     return (
         <View style={styles.container}>
-            <View style={{ flex: 8, borderColor: 'red', borderWidth: 3 }}>
+            <View style={{ flex: 8, borderColor: 'orange', borderWidth: 3 }}>
                 <FlatList
                     data={state}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item._id}
                     renderItem={({ item }) => {
                         return (
                             <ListItem
