@@ -12,7 +12,8 @@ const eventSchema = new mongoose.Schema({
         default: ''
     },
     timestamp: Number, // when event was created
-    eventDate: Date,
+    createDate: String,
+    eventDate: String,
 
     /* LEAVE OUT FOR NOW UNTIL OK WITH DB
     eventTime: Number,
