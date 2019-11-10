@@ -5,10 +5,11 @@ import {
     Text,
     Animated, 
     StyleSheet,
-    TouchableOpacity
 } from 'react-native';
 
-const ListItem = ({ details, onSwipeFromLeft, onSwipeFromRight }) => {
+import EventCard from './EventCards';
+
+const ListItem = (items, { onSwipeFromLeft, onSwipeFromRight }) => {
     return (
         <Swipeable
             renderLeftActions={LeftActions}
@@ -17,7 +18,7 @@ const ListItem = ({ details, onSwipeFromLeft, onSwipeFromRight }) => {
             onSwipeableRightOpen={onSwipeFromRight}
         >
             <View style={styles.container}>
-                <Text style={styles.text}>{details}</Text>
+                <EventCard {...items} />
             </View>
         </Swipeable>
     );

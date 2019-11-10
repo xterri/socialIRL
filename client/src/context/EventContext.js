@@ -38,4 +38,5 @@ const addEvent = (dispatch) => {
 export const { Context, Provider } = createDataContext(
     eventDetailsReducer, 
     { addEvent, getEvents }, 
-    []);
+    {currentIndex: 0 }
+);

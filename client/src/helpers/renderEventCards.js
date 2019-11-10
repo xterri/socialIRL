@@ -1,5 +1,5 @@
 // reference https://www.instamobile.io/react-native-controls/react-native-swipe-cards-tinder/ for swipe feature
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { 
     Text, 
     Animated, 
@@ -8,20 +8,34 @@ import {
     StyleSheet
 } from 'react-native';
 
+import { Context as EventContext } from '../context/EventContext';
 import EventCards from '../components/EventCards';
 
-// TODO: change to useContext & create an EventContext w/ api call to our db
+// To be deleted if we decide to use this method and figure out how to use the context for this
 import data from '../devSource/events.json';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
+
 const renderEvents = ({ navigation }) => {
+    const { events, getEvents } = useContext(EventContext);
+    const [ state, setState ] = useState({ currentIndex: 0 });
+
+    useEffect(() => {
+        getEvents();
+        const listener = navigation.addListener('didFocus', () => {
+            getEvents();
+        });
+        return (() => {
+            listener.remove();
+        });
+    }, []);
+
     // handle vector position
     const position = new Animated.ValueXY();
     // inputRange value variable
     const inputRangeValue = [ -SCREEN_WIDTH / 2, 0, SCREEN_WIDTH /2 ];
-    const [ state, setState ] = useState({ currentIndex: 0 });
 
     // handles touch on mobile for swiping
     const panResponder = PanResponder.create({
