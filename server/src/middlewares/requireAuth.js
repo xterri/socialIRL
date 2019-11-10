@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 
-module.exports =(req, res, next) => {
-    // extract jwt from authroization in headers
+module.exports = (req, res, next) => {
+    // extract jwt from authorization in headers
     const { authorization } = req.headers; // authorization === 'Bearer <jwt>'
 
     if (!authorization)

@@ -9,7 +9,7 @@ const Event = mongoose.model('Event');
 const router = express.Router();
 
 // if user signed in, continue to with requests
-router.use(requireAuth);
+router.use(requireAuth); // issue with the requireAuth....
 
 router.get('/events', async (req, res) => {
     const events = await Event.find(); // currently returns first 20 results
@@ -24,7 +24,7 @@ router.post ('/events', async (req, res) => {
 
     // TODO: add more to requirements
     if (!eventDetails.title || !eventDetails.description || !eventDetails.eventDate) {
-        return res.status(422).send({ error: 'Please provide a title, description and date' });
+        return res.status(423).send({ error: 'Please provide a title, description and date' });
     }
 
     try {
@@ -32,9 +32,14 @@ router.post ('/events', async (req, res) => {
             hostId: req.user._id,
             title: eventDetails.title,
             description: eventDetails.description,
-            timestamp: _id.getTimeStamp(),
+            timestamp: new Date(),
+            createDate: '',
             eventDate: eventDetails.eventDate,
         });
+
+        let date = new Date(event.timestamp);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        event.createDate = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + '\t'+ date.getHours() +  ':' + date.getMinutes();
 
         await event.save();
 
