@@ -19,19 +19,20 @@ router.get('/events', async (req, res) => {
 
     if (!req.query.view) {
         // no view param, return all events
-        returnEvents = events;
+        res.send(events);
     } else if (req.query.view === 'user') {
         // display other users events
-        events.map((event) => {
+        events.map(async (event) => {
             if (String(event.hostId) !== userId) {
                 returnEvents.push(event);
             }
-        })
+        });
     } else if (req.query.view === 'host') {
         // display events created by host
         returnEvents = await Event.find({ hostId: req.user._id });
     }
 
+    // console.log(returnEvents);
     // TODO: iterate to get all results? handle the # of results here or in client?
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
     res.send(returnEvents);
@@ -48,6 +49,7 @@ router.post ('/events', async (req, res) => {
     try {
         const event = new Event({ 
             hostId: req.user._id,
+            hostname: req.user.email,
             title: eventDetails.title,
             description: eventDetails.description,
             timestamp: new Date(),

@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
+    hostname: String,
     title: String,
     description: {
         type: String,

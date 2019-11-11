@@ -14,7 +14,7 @@ const eventDetailsReducer = (state, action) => {
 };
 
 const getEvents = (dispatch) => {
-    return (async () => {
+    return (async (view) => {
         // TODO: receive trigger to switch between host/user views
         const response = await appAPI.get('/events', { params: { view: 'user' }}); 
 
