@@ -49,6 +49,7 @@ app.get('/', requireAuth, (req, res) => {
     res.send('Access granted');
 });
 
-app.listen(8080, () => {
-    console.log('Listening on port 8080');
+// TODO: CHANGE BACK TO 8080 FOR IT TO WORK WITH GCP
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
 });

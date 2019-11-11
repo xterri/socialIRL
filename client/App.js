@@ -35,7 +35,7 @@ const switchNavigator = createSwitchNavigator({
     // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
     // Test: TestScreen,
-    Main: MainScreen,
+    // Main: MainScreen,
     ListMain: ListMainScreen,
     EventDetails: EventDetailsScreen,
     UserProfile: UserProfileScreen,

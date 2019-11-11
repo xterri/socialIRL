@@ -8,7 +8,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { Context as EventContext } from '../context/EventContext';
+// import { Context as EventContext } from '../context/EventContext';
 import EventCards from '../components/EventCards';
 
 // To be deleted if we decide to use this method and figure out how to use the context for this
@@ -19,18 +19,18 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 
 const renderEvents = ({ navigation }) => {
-    const { events, getEvents } = useContext(EventContext);
+    // const { events, getEvents } = useContext(EventContext);
     const [ state, setState ] = useState({ currentIndex: 0 });
 
-    useEffect(() => {
-        getEvents();
-        const listener = navigation.addListener('didFocus', () => {
-            getEvents();
-        });
-        return (() => {
-            listener.remove();
-        });
-    }, []);
+    // useEffect(() => {
+    //     getEvents();
+    //     const listener = navigation.addListener('didFocus', () => {
+    //         getEvents();
+    //     });
+    //     return (() => {
+    //         listener.remove();
+    //     });
+    // }, []);
 
     // handle vector position
     const position = new Animated.ValueXY();
