@@ -13,10 +13,28 @@ router.use(requireAuth); // issue with the requireAuth....
 
 router.get('/events', async (req, res) => {
     const events = await Event.find(); // currently returns first 20 results
+    const userId = String(req.user._id);
+
+    let returnEvents = [];
+
+    if (!req.query.view) {
+        // no view param, return all events
+        returnEvents = events;
+    } else if (req.query.view === 'user') {
+        // display other users events
+        events.map((event) => {
+            if (String(event.hostId) !== userId) {
+                returnEvents.push(event);
+            }
+        })
+    } else if (req.query.view === 'host') {
+        // display events created by host
+        returnEvents = await Event.find({ hostId: req.user._id });
+    }
 
     // TODO: iterate to get all results? handle the # of results here or in client?
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
-    res.send(events);
+    res.send(returnEvents);
 });
 
 router.post ('/events', async (req, res) => {

@@ -15,7 +15,8 @@ const eventDetailsReducer = (state, action) => {
 
 const getEvents = (dispatch) => {
     return (async () => {
-        const response = await appAPI.get('/events'); 
+        // TODO: receive trigger to switch between host/user views
+        const response = await appAPI.get('/events', { params: { view: 'user' }}); 
 
         dispatch({ type: 'get_events', payload: response.data }); 
     });
@@ -38,5 +39,5 @@ const addEvent = (dispatch) => {
 export const { Context, Provider } = createDataContext(
     eventDetailsReducer, 
     { addEvent, getEvents }, 
-    {currentIndex: 0 }
+    // {currentIndex: 0 }
 );
