@@ -1,5 +1,3 @@
-import { AsyncStorage } from 'react-native';
-
 import appAPI from '../api/appAPI';
 import createDataContext from './createDataContext'; 
 
@@ -8,6 +6,8 @@ const eventDetailsReducer = (state, action) => {
     switch (action.type) {
         case 'get_events':
             return action.payload;
+        case 'disliked_event':
+            return state.filter((event) => event._id !== action.payload);
         default:
             return state;
     }
@@ -35,9 +35,15 @@ const addEvent = (dispatch) => {
     });
 };
 
+const dislikeEvent = (dispatch) => {
+    return (async (id) => {
+        dispatch({ type: 'disliked_event', payload: id });
+    });
+};
+
 // pass in reducer, object w/ actions, & initial/default state
 export const { Context, Provider } = createDataContext(
     eventDetailsReducer, 
-    { addEvent, getEvents }, 
+    { addEvent, getEvents, dislikeEvent }, 
     // {currentIndex: 0 }
 );

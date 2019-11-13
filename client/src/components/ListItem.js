@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {
     View, 
@@ -8,17 +8,21 @@ import {
 } from 'react-native';
 
 import EventCard from './EventCards';
+import { Context as EventContext } from '../context/EventContext';
 
-const ListItem = (items, { onSwipeFromLeft, onSwipeFromRight }) => {
+
+const ListItem = (event) => {
+    const { dislikeEvent } = useContext(EventContext);
+
     return (
         <Swipeable
             renderLeftActions={LeftActions}
             renderRightActions={RightActions}
-            onSwipeableLeftOpen={onSwipeFromLeft}
-            onSwipeableRightOpen={onSwipeFromRight}
+            onSwipeableLeftOpen={() => console.log(event)}
+            onSwipeableRightOpen={() => dislikeEvent(event._id)}
         >
             <View style={styles.container}>
-                <EventCard {...items} />
+                <EventCard {...event} />
             </View>
         </Swipeable>
     );

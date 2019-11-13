@@ -8,9 +8,9 @@ import {
     TouchableOpacity, 
 } from 'react-native';
 
-import { EventLeftSwipe, EventRightSwipe } from '../helpers/onSwipe';
 import ListItem, { Separator } from '../components/ListItem';
 import { Context as EventContext } from '../context/EventContext';
+
 
 const ListMainScreen = ({ navigation }) => {
     const { state, getEvents } = useContext(EventContext);
@@ -35,11 +35,7 @@ const ListMainScreen = ({ navigation }) => {
                     keyExtractor={item => item._id}
                     renderItem={({ item }) => {
                         return (
-                            <ListItem
-                                {...item}
-                                onSwipeFromLeft={() => EventLeftSwipe({ ...item })}
-                                onSwipeFromRight={() => EventRightSwipe({ ...item })}
-                            />
+                            <ListItem {...item} />
                         );
                     }}
                     ItemSeparatorComponent={() => <Separator />}
