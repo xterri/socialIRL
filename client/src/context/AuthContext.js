@@ -47,7 +47,7 @@ const signin = (dispatch) => async ({ email, password }) => {
 
         await AsyncStorage.setItem('token', response.data.token);
         dispatch({ type: 'signin', payload: response.data.token});
-
+        
         // navigate to main flow
         navigate('mainFlow');
     } catch (err) {
