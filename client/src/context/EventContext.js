@@ -35,6 +35,7 @@ const addEvent = (dispatch) => {
     });
 };
 
+// remove event from the state list. should reappear after refresh
 const dislikeEvent = (dispatch) => {
     return (async (id) => {
         dispatch({ type: 'disliked_event', payload: id });
