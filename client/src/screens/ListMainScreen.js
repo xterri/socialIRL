@@ -16,7 +16,8 @@ const ListMainScreen = ({ navigation }) => {
     const { state, getEvents } = useContext(EventContext);
 
     useEffect(() => {
-        getEvents();
+        // TODO: set getEvents arg to user/host; default = 'user'; save user's last preference in db?
+        getEvents('user');
 
         const listener = navigation.addListener('didFocus', () => {
             getEvents();

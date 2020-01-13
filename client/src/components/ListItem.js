@@ -12,13 +12,13 @@ import { Context as EventContext } from '../context/EventContext';
 
 
 const ListItem = (event) => {
-    const { dislikeEvent } = useContext(EventContext);
+    const { dislikeEvent, likeEvent } = useContext(EventContext);
 
     return (
         <Swipeable
             renderLeftActions={LeftActions}
             renderRightActions={RightActions}
-            onSwipeableLeftOpen={() => console.log(event)}
+            onSwipeableLeftOpen={() => likeEvent(event._id)}
             onSwipeableRightOpen={() => dislikeEvent(event._id)}
         >
             <View style={styles.container}>
