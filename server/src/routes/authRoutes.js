@@ -33,7 +33,7 @@ router.post('/signin', async (req, res) => {
 
     if (!email || !password) 
         return res.status(422).send({ error: 'Must provide email and password' });
-
+    
     const user = await User.findOne({ email });
 
     if (!user) 
@@ -49,6 +49,6 @@ router.post('/signin', async (req, res) => {
     } catch (err) {
         return res.status(422).send({ error: 'Invalid password or email' });
     }
-})
+});
 
 module.exports = router;

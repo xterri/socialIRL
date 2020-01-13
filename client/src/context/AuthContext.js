@@ -43,7 +43,7 @@ const signup = (dispatch) => async ({ email, password, confirmPassword }) => {
 
 const signin = (dispatch) => async ({ email, password }) => {
     try {
-        const response = await appAPI.post('/signin',{ email, password });
+        const response = await appAPI.post('/signin', { email, password });
 
         await AsyncStorage.setItem('token', response.data.token);
         dispatch({ type: 'signin', payload: response.data.token});
