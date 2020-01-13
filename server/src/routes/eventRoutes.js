@@ -17,14 +17,40 @@ router.get('/events', async (req, res) => {
 
     let returnEvents = [];
 
+    /* GET INFORMATION OF EVENT / USER */
+
+    // if request for current userId & event
+    if (req.query.eventId) {
+        let event = await Event.find({ _id: req.query.eventId });
+
+        // event.interestedUsers.push(userId);
+        res.send(event);
+    }
+
+    /* GET ALL EVENTS PERTINENT TO USER / HOST */
     if (!req.query.view) {
         // no view param, return all events
         res.send(events);
     } else if (req.query.view === 'user') {
-        // display other users events
+        // display other users' events
         events.map(async (event) => {
             if (String(event.hostId) !== userId) {
-                returnEvents.push(event);
+                
+                // filter events that user has already liked
+                // if (event.interestedUsers && event.interestedUsers.length) { 
+                //     var i = 0;
+                //     var arrLen = event.interestedUsers.length
+
+                //     for (i; i < arrLen; i++) {
+                //         if (event.interestedUsers[i] === userId) break ;
+                //     }
+
+                //     // if 'i' >= arrLen, userID match was NOT found
+                //     if (i >= arrLen) returnEvents.push(event);
+
+                // } else {
+                    returnEvents.push(event);
+                // }
             }
         });
     } else if (req.query.view === 'host') {

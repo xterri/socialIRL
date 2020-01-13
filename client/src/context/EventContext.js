@@ -8,15 +8,17 @@ const eventDetailsReducer = (state, action) => {
             return action.payload;
         case 'disliked_event':
             return state.filter((event) => event._id !== action.payload);
+        case 'liked_event':
+            return state.filter((event)=> event._id !== action.payload);
         default:
             return state;
     }
 };
 
+// get all events not created by current user
 const getEvents = (dispatch) => {
     return (async (view) => {
-        // TODO: receive trigger to switch between host/user views
-        const response = await appAPI.get('/events', { params: { view: 'user' }}); 
+        const response = await appAPI.get('/events', { params: { view }}); 
 
         dispatch({ type: 'get_events', payload: response.data }); 
     });
@@ -42,9 +44,35 @@ const dislikeEvent = (dispatch) => {
     });
 };
 
+const likeEvent = (dispatch) => {
+    return (async (id) => {
+
+        /*
+        ** Are we able to just send a request to server end and re-map the event's interestedUsers to include current userID
+        ** instead of doing this?
+        */
+
+        // get userID & event
+        // const response = await appAPI.get('/events', { params: { eventId: id }}); 
+
+        // const userId = response.data[0].userId;
+        // const newLikes = response.data[0].event.interestedUsers;
+
+        // newLikes.push(userId);
+
+        // save user._id to event._id
+        const response = await appAPI.get('/events', { params: { eventId: id }});
+
+        console.log(response.data);
+
+        dispatch({ type: 'liked_event', payload: id });
+        // callback ? callback() : null;
+    });
+};
+
 // pass in reducer, object w/ actions, & initial/default state
 export const { Context, Provider } = createDataContext(
     eventDetailsReducer, 
-    { addEvent, getEvents, dislikeEvent }, 
+    { addEvent, getEvents, dislikeEvent, likeEvent }, 
     // {currentIndex: 0 }
 );
