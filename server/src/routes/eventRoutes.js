@@ -17,17 +17,6 @@ router.get('/events', async (req, res) => {
 
     let returnEvents = [];
 
-    /* GET INFORMATION OF EVENT / USER */
-
-    // if request for current userId & event
-    if (req.query.eventId) {
-        let event = await Event.find({ _id: req.query.eventId });
-
-        // event.interestedUsers.push(userId);
-        res.send(event);
-    }
-
-    /* GET ALL EVENTS PERTINENT TO USER / HOST */
     if (!req.query.view) {
         // no view param, return all events
         res.send(events);
@@ -37,20 +26,21 @@ router.get('/events', async (req, res) => {
             if (String(event.hostId) !== userId) {
                 
                 // filter events that user has already liked
-                // if (event.interestedUsers && event.interestedUsers.length) { 
-                //     var i = 0;
-                //     var arrLen = event.interestedUsers.length
+                if (event.interestedUsers && event.interestedUsers.length) { 
+                    var i = 0;
+                    var arrLen = event.interestedUsers.length
 
-                //     for (i; i < arrLen; i++) {
-                //         if (event.interestedUsers[i] === userId) break ;
-                //     }
+                    while (i < arrLen) {
+                        if (String(event.interestedUsers[i]) === userId)
+                            break;
+                        i++;
+                    }
 
-                //     // if 'i' >= arrLen, userID match was NOT found
-                //     if (i >= arrLen) returnEvents.push(event);
-
-                // } else {
+                    // if 'i' >= arrLen, userID match was NOT found
+                    if (i >= arrLen) returnEvents.push(event);
+                } else {
                     returnEvents.push(event);
-                // }
+                }
             }
         });
     } else if (req.query.view === 'host') {
@@ -67,32 +57,59 @@ router.get('/events', async (req, res) => {
 router.post ('/events', async (req, res) => {
     const eventDetails = req.body;
 
-    // TODO: add more to requirements
-    if (!eventDetails.title || !eventDetails.description || !eventDetails.eventDate) {
-        return res.status(423).send({ error: 'Please provide a title, description and date' });
-    }
+    // update req if eventId is passed
+    if (eventDetails.eventId) {
+        let event = await Event.find({ _id: eventDetails.eventId });
+        let likedUsers = [];
 
-    try {
-        const event = new Event({ 
-            hostId: req.user._id,
-            hostname: req.user.email,
-            title: eventDetails.title,
-            description: eventDetails.description,
-            timestamp: new Date(),
-            createDate: '',
-            eventDate: eventDetails.eventDate,
-        });
+        // if interestedUsers array is defined, save current list to newArray
+        if (event[0].interestedUsers && event[0].interestedUsers.length) {
+            likedUsers = event[0].interestedUsers;
+        } 
 
-        let date = new Date(event.timestamp);
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        event.createDate = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + '\t'+ date.getHours() +  ':' + date.getMinutes();
+        // push currently interested user to new Array
+        likedUsers.push(req.user._id);
 
-        await event.save();
+        // update event.interestedUsers
+        await Event.updateOne(
+            // locate document to update
+            { _id: eventDetails.eventId }, 
+            { $set: 
+                { 
+                    interestedUsers: likedUsers 
+                }
+            }
+        );
 
         res.send(event);
-    } catch (err) {
-        res.status(422).send({ error: err.message });
-    };
+    } else {
+        // TODO: add more to requirements
+        if (!eventDetails.title || !eventDetails.description || !eventDetails.eventDate) {
+            return res.status(423).send({ error: 'Please provide a title, description and date' });
+        }
+
+        try {
+            const event = new Event({ 
+                hostId: req.user._id,
+                hostname: req.user.email,
+                title: eventDetails.title,
+                description: eventDetails.description,
+                timestamp: new Date(),
+                createDate: '',
+                eventDate: eventDetails.eventDate,
+            });
+
+            let date = new Date(event.timestamp);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            event.createDate = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() + '\t'+ date.getHours() +  ':' + date.getMinutes();
+
+            await event.save();
+
+            res.send(event);
+        } catch (err) {
+            res.status(422).send({ error: err.message });
+        };
+    }
 });
 
 module.exports = router;
