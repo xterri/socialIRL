@@ -35,7 +35,7 @@ const CreateEventScreen = ({ navigation }) => {
                 />
                 <Button 
                     title='Create Event' 
-                    onPress={() => addEvent(title, description, eventDate, () => {navigation.navigate('AccountMain')})}
+                    onPress={() => addEvent(title, description, eventDate, () => {navigation.navigate('ListMain')})}
                 />
             </View>
         </View>
