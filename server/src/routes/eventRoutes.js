@@ -17,10 +17,10 @@ router.get('/events', async (req, res) => {
 
     let returnEvents = [];
 
-    if (!req.query.view) {
+    if (!req.user.view) {
         // no view param, return all events
         res.send(events);
-    } else if (req.query.view === 'user') {
+    } else if (req.user.view === 'user') {
         // display other users' events
         events.map(async (event) => {
             if (String(event.hostId) !== userId) {
@@ -43,7 +43,7 @@ router.get('/events', async (req, res) => {
                 }
             }
         });
-    } else if (req.query.view === 'host') {
+    } else if (req.user.view === 'host') {
         // display events created by host
         returnEvents = await Event.find({ hostId: req.user._id });
     }
