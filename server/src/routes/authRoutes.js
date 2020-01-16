@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
 
         // TODO: add more checks to confirm proper email is entered, etc.
         if (password === confirmPassword) {
-            const user = new User({ email, password });
+            const user = new User({ email, password, view: 'user' });
 
             await user.save();
 

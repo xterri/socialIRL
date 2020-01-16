@@ -17,7 +17,7 @@ const ListMainScreen = ({ navigation }) => {
 
     useEffect(() => {
         // TODO: set getEvents arg to user/host; default = 'user'; save user's last preference in db?
-        getEvents('user');
+        getEvents();
 
         const listener = navigation.addListener('didFocus', () => {
             getEvents();
