@@ -6,9 +6,11 @@ const eventDetailsReducer = (state, action) => {
     switch (action.type) {
         case 'get_events':
             return action.payload;
-        case 'add_events':
-            return [...state, action.payload];
-        case 'disliked_event' || 'liked_event':
+        // case 'add_events':
+        //     return [...state, action.payload];
+        case 'disliked_event':
+            return state.filter((event) => event._id !== action.payload);
+        case 'liked_event': // should be able to add to 'disliked_event' case with || but doesn't it filter
             return state.filter((event) => event._id !== action.payload);
         default:
             return state;
@@ -17,8 +19,8 @@ const eventDetailsReducer = (state, action) => {
 
 // get all events not created by current user
 const getEvents = (dispatch) => {
-    return (async (view) => {
-        const response = await appAPI.get('/events', { params: { view }}); 
+    return (async () => {
+        const response = await appAPI.get('/events'); 
 
         dispatch({ type: 'get_events', payload: response.data }); 
     });
@@ -30,7 +32,7 @@ const addEvent = (dispatch) => {
         try {
             const response = await appAPI.post('/events', { title, description, eventDate }); 
 
-            dispatch({ type: 'add_events', payload: response.data }); 
+            // dispatch({ type: 'add_events', payload: response.data }); 
 
             callback ? callback() : null;
         } catch (err) {
@@ -49,9 +51,8 @@ const dislikeEvent = (dispatch) => {
 const likeEvent = (dispatch) => {
     return (async (id) => {
         // save user._id to event._id
-        const response = await appAPI.post('/events', { eventId: id });
+        await appAPI.post('/events', { eventId: id });
 
-        // console.log(response.data);
         dispatch({ type: 'liked_event', payload: id });
         // callback ? callback() : null;
     });
