@@ -29,7 +29,8 @@ mongoose.connect(mongoUri, {
     // adding in below to prevent common err msgs & warnings from appearing
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 // check connetion to Mongoose instance
