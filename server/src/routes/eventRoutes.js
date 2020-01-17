@@ -12,46 +12,25 @@ const router = express.Router();
 router.use(requireAuth); // issue with the requireAuth....
 
 router.get('/events', async (req, res) => {
-    const events = await Event.find(); // currently returns first 20 results
-    const userId = String(req.user._id);
-
-    let returnEvents = [];
+    let events = [];
 
     if (!req.user.view) {
         // no view param, return all events
-        res.send(events);
+        events = await Event.find(); // currently returns first 20 results
+
     } else if (req.user.view === 'user') {
         // display other users' events
-        events.map(async (event) => {
-            if (String(event.hostId) !== userId) {
-                
-                // filter events that user has already liked
-                if (event.interestedUsers && event.interestedUsers.length) { 
-                    var i = 0;
-                    var arrLen = event.interestedUsers.length
+        events = await Event.find({ interestedUsers: { $ne: req.user._id }, hostId: { $ne: req.user._id }});
 
-                    while (i < arrLen) {
-                        if (String(event.interestedUsers[i]) === userId)
-                            break;
-                        i++;
-                    }
-
-                    // if 'i' >= arrLen, userID match was NOT found
-                    if (i >= arrLen) returnEvents.push(event);
-                } else {
-                    returnEvents.push(event);
-                }
-            }
-        });
     } else if (req.user.view === 'host') {
         // display events created by host
-        returnEvents = await Event.find({ hostId: req.user._id });
+        events = await Event.find({ hostId: req.user._id });
     }
 
     // console.log(returnEvents);
     // TODO: iterate to get all results? handle the # of results here or in client?
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
-    res.send(returnEvents);
+    res.send(events);
 });
 
 router.post ('/events', async (req, res) => {
