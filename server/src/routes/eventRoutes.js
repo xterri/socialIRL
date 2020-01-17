@@ -38,28 +38,12 @@ router.post ('/events', async (req, res) => {
 
     // update req if eventId is passed
     if (eventDetails.eventId) {
-        let event = await Event.find({ _id: eventDetails.eventId });
-        let likedUsers = [];
-
-        // if interestedUsers array is defined, save current list to newArray
-        if (event[0].interestedUsers && event[0].interestedUsers.length) {
-            likedUsers = event[0].interestedUsers;
-        } 
-
-        // push currently interested user to new Array
-        likedUsers.push(req.user._id);
-
-        // update event.interestedUsers
-        await Event.updateOne(
-            // locate document to update
+        let event = await Event.findOneAndUpdate(
             { _id: eventDetails.eventId }, 
-            { $set: 
-                { 
-                    interestedUsers: likedUsers 
-                }
-            }
+            { $push: { interestedUsers: req.user._id }}
         );
 
+        // unncessary to return event?
         res.send(event);
     } else {
         // TODO: add more to requirements
