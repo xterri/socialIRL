@@ -8,7 +8,8 @@ const authReducer = (state, action) => {
     switch (action.type) {
         case 'add_error': 
             return { ...state, errorMessage: action.payload };
-        case 'signup' || 'signin':
+        case 'signup':
+        case 'signin':
             return { errorMessage: '', token: action.payload };
         case 'clear_error_message':
             return { ...state, errorMessage: '' };

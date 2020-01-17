@@ -6,11 +6,8 @@ const eventDetailsReducer = (state, action) => {
     switch (action.type) {
         case 'get_events':
             return action.payload;
-        // case 'add_events':
-        //     return [...state, action.payload];
         case 'disliked_event':
-            return state.filter((event) => event._id !== action.payload);
-        case 'liked_event': // should be able to add to 'disliked_event' case with || but doesn't it filter
+        case 'liked_event':
             return state.filter((event) => event._id !== action.payload);
         default:
             return state;
