@@ -19,6 +19,9 @@ const getEvents = (dispatch) => {
     return (async () => {
         const response = await appAPI.get('/events'); 
 
+        // randomize array before dispatch
+        // TODO: Need algorithm to sort and randomize events closest to ending soon (date & time factor)
+
         dispatch({ type: 'get_events', payload: response.data }); 
     });
 }
