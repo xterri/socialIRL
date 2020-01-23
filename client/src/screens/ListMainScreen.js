@@ -17,30 +17,29 @@ const ListMainScreen = ({ navigation }) => {
 
     useEffect(() => {
         // TODO: set getEvents arg to user/host; default = 'user'; save user's last preference in db?
-        getEvents(state.page);
+        getEvents();
 
         const listener = navigation.addListener('didFocus', () => {
-            getEvents(state.page);
+            getEvents();
         });
 
         return (() => {
             listener.remove();
         });
     }, []);
-    
+
     return (
         <View style={styles.container}>
             <View style={{ flex: 8, borderColor: 'orange', borderWidth: 3 }}>
                 <FlatList
-                    data={state.data}
+                    data={state}
                     keyExtractor={item => item._id}
                     renderItem={({ item }) => {
                         return (
                             <ListItem {...item} />
                         );
                     }}
-                    // onEndReached={() => getEvents(state.page)}
-                    // onEndReachedThreshold={4}
+                    scrollEnabled={false}
                     ItemSeparatorComponent={() => <Separator />}
                 />
             </View>

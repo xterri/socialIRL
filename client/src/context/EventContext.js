@@ -1,18 +1,14 @@
 import appAPI from '../api/appAPI';
 import createDataContext from './createDataContext'; 
 
-const ITEMS_PER_PAGE = 5;
 
 const eventDetailsReducer = (state, action) => {
     switch (action.type) {
         case 'get_events':
-            // return { state: action.payload.data, page: action.payload.page };
-            return { data: action.payload.data, page: action.payload.page };
-        // case 'load_more': 
-        //     return { ...state, page: action.payload.page };
+            return action.payload;
         case 'disliked_event':
         case 'liked_event':
-            return { data: state.data.filter((event) => event._id !== action.payload) };
+            return state.filter((event) => event._id !== action.payload);
         default:
             return state;
     }
@@ -20,16 +16,13 @@ const eventDetailsReducer = (state, action) => {
 
 // get all events not created by current user
 const getEvents = (dispatch) => {
-    return (async (page) => {
+    return (async () => {
         const response = await appAPI.get('/events'); 
-
-        // limit # of events shown
-        let newData = loadMore(page, response.data)
 
         // randomize array before dispatch
         // TODO: Need algorithm to sort and randomize events closest to ending soon (date & time factor)
 
-        dispatch({ type: 'get_events', payload: { data: newData, page: page + 1 }}); 
+        dispatch({ type: 'get_events', payload: response.data }); 
     });
 }
 
@@ -51,6 +44,7 @@ const addEvent = (dispatch) => {
 // remove event from the state list. should reappear after refresh
 const dislikeEvent = (dispatch) => {
     return (async (id) => {
+
         dispatch({ type: 'disliked_event', payload: id });
     });
 };
@@ -65,20 +59,9 @@ const likeEvent = (dispatch) => {
     });
 };
 
-// HELPER FUNCTIONS
-const loadMore = (page, data) => {
-    const start = page * ITEMS_PER_PAGE;
-    const end = (page + 1) * ITEMS_PER_PAGE - 1;
-
-    let newData = data.slice(start, end);
-
-    return (newData);
-    // dispatch({ type: 'load_more', payload: { data: newData, page: page + 1 }});
-}
-
 // pass in reducer, object w/ actions, & initial/default state
 export const { Context, Provider } = createDataContext(
     eventDetailsReducer, 
     { addEvent, getEvents, dislikeEvent, likeEvent }, 
-    { page: 1 }
+    // {}
 );
