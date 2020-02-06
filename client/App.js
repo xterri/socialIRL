@@ -19,6 +19,7 @@ import ChatListScreen from './src/screens/ChatListScreen';
 import ChatroomScreen from './src/screens/ChatroomScreen';
 import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
 import ListMainScreen from './src/screens/ListMainScreen';
+import DateTimeTestScreen from './src/screens/DateTimeTestScreen';
 
 // import TestScreen from './src/screens/testScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
@@ -36,6 +37,9 @@ const switchNavigator = createSwitchNavigator({
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
     // Test: TestScreen,
     // Main: MainScreen,
+    DateTimeTest: DateTimeTestScreen,
+    // CreateEvent: CreateEventScreen,
+
     ListMain: ListMainScreen,
     EventDetails: EventDetailsScreen,
     UserProfile: UserProfileScreen,
@@ -43,7 +47,7 @@ const switchNavigator = createSwitchNavigator({
     AccountMain: AccountMainScreen,
     EditAccount: EditAccountScreen,
     Settings: SettingsScreen,
-    CreateEvent: CreateEventScreen,
+    // CreateEvent: CreateEventScreen,
     ChatList: ChatListScreen,
     Chatroom: ChatroomScreen,
     ConfirmAttendance: ConfirmAttendanceScreen,
@@ -54,10 +58,10 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <EventProvider>
-      <AuthProvider>
-        <App ref={(navigator) => { setNavigator(navigator)}}/>
-      </AuthProvider>
-    </EventProvider>
+      <EventProvider>
+        <AuthProvider>
+          <App ref={(navigator) => { setNavigator(navigator)}}/>
+        </AuthProvider>
+      </EventProvider>
   );
 };
