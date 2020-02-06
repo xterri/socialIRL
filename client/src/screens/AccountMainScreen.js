@@ -10,6 +10,7 @@ const AccountMainScreen = ({ navigation }) => {
             <Button title='Edit Profile' onPress={() => navigation.navigate('EditAccount')} />
             <Button title='Account Settings' onPress={() => navigation.navigate('Settings')} />
             <Button title='Create Event' onPress={() => navigation.navigate('CreateEvent')} />
+            <Button title='DateTest' onPress={() => navigation.navigate('DateTimeTest')} />
 
             <TouchableOpacity style={styles.eventButtons} onPress={() => navigation.navigate('EventDetails')}>
                 <Text>Test Event 1 Button</Text>
