@@ -19,9 +19,7 @@ import ChatListScreen from './src/screens/ChatListScreen';
 import ChatroomScreen from './src/screens/ChatroomScreen';
 import ConfirmAttendanceScreen from './src/screens/ConfirmAttendanceScreen';
 import ListMainScreen from './src/screens/ListMainScreen';
-import DateTimeTestScreen from './src/screens/DateTimeTestScreen';
 
-// import TestScreen from './src/screens/testScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { Provider as EventProvider } from './src/context/EventContext';
 import { setNavigator } from './src/navigationRef';
@@ -35,10 +33,7 @@ const switchNavigator = createSwitchNavigator({
   // can navigate to any of the listed route screens, but the 'back' feature will only go back to 'last' screen it refers to
     // ex. navigate to Sign Up from AccountMain, if 'back' is pressed, will navigate to Sign In and not AccountMain
   mainFlow: createStackNavigator({ // either StackNavigator or createBottomTabNavigator({})
-    // Test: TestScreen,
     // Main: MainScreen,
-    DateTimeTest: DateTimeTestScreen,
-    // CreateEvent: CreateEventScreen,
 
     ListMain: ListMainScreen,
     EventDetails: EventDetailsScreen,
@@ -47,7 +42,7 @@ const switchNavigator = createSwitchNavigator({
     AccountMain: AccountMainScreen,
     EditAccount: EditAccountScreen,
     Settings: SettingsScreen,
-    // CreateEvent: CreateEventScreen,
+    CreateEvent: CreateEventScreen,
     ChatList: ChatListScreen,
     Chatroom: ChatroomScreen,
     ConfirmAttendance: ConfirmAttendanceScreen,

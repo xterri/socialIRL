@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const instance = axios.create({
     // enter public url for access to api; for now use ngrok (connect it to the server/expressAPI)
-    baseURL: 'https://87c77e5d.ngrok.io' // dev
+    baseURL: 'https://42d4175b.ngrok.io' // dev
     // baseURL: 'https://socialirl.appspot.com/' // prod 
 });
 
