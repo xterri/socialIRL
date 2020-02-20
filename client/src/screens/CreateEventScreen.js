@@ -47,12 +47,13 @@ const CreateEventScreen = ({ navigation }) => {
                     style={styles.input}
                 />
                 <Text style={styles.label}>Event Date</Text>
-                <TouchableOpacity onPress={showDateTimePicker}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <TextInput 
                         value={displayDate(date)}
                         style={styles.input}
                         editable={false}
                     />
+                    <Button title='Select Date & Time' onPress={showDateTimePicker} />
                     <DateTimePicker
                         isVisible={pickerMode !== null} // show/hide datetime picker
                         onConfirm={handleConfirm}
@@ -62,7 +63,7 @@ const CreateEventScreen = ({ navigation }) => {
                         minimumDate={todayDate}
                         minuteInterval={10}
                     />
-                </TouchableOpacity>
+                </View>
                 <Button 
                     title='Create Event' 
                     onPress={() => addEvent(title, description, date, () => {navigation.navigate('ListMain')})}
