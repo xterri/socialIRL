@@ -1,6 +1,6 @@
 import appAPI from '../api/appAPI';
 import createDataContext from './createDataContext'; 
-
+import _ from 'lodash';
 
 const eventDetailsReducer = (state, action) => {
     switch (action.type) {
@@ -17,12 +17,15 @@ const eventDetailsReducer = (state, action) => {
 // get all events not created by current user
 const getEvents = (dispatch) => {
     return (async () => {
-        const response = await appAPI.get('/events'); 
-
+        const response = await appAPI.get('/events');
+        const len = response.data.length;
+        
         // randomize array before dispatch
-        // TODO: Need algorithm to sort and randomize events closest to ending soon (date & time factor)
+        response.data.forEach((event) => {
+            event.priority = 0.3 * (Math.floor(Math.random() * len) / len) + 0.7 * (new Date(event.eventDate).getTime() - Date.now());
+        });
 
-        dispatch({ type: 'get_events', payload: response.data }); 
+        dispatch({ type: 'get_events', payload: _.sortBy(response.data, 'priority') }); 
     });
 }
 
