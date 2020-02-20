@@ -19,13 +19,19 @@ const getEvents = (dispatch) => {
     return (async () => {
         const response = await appAPI.get('/events');
         const len = response.data.length;
+        const eventsArray = [];
         
         // randomize array before dispatch
         response.data.forEach((event) => {
-            event.priority = 0.3 * (Math.floor(Math.random() * len) / len) + 0.7 * (new Date(event.eventDate).getTime() - Date.now());
+            event.priority = 0.4 * (Math.floor(Math.random() * len) / len) + 0.6 * (new Date(event.eventDate).getTime() - Date.now());
+            
+            // TODO: use Math.absolute to make the weight value postive
+            if (event.priority > 0) {
+                eventsArray.push(event);
+            }
         });
 
-        dispatch({ type: 'get_events', payload: _.sortBy(response.data, 'priority') }); 
+        dispatch({ type: 'get_events', payload: _.sortBy(eventsArray, 'priority') }); 
     });
 }
 
